@@ -40,10 +40,20 @@ public class MyNFA {
             times[i] = timeElapsed;
             outputs.add(reachable);
         }
+        System.out.println("Übersicht");
+        System.out.println("----------------------------------------------------------------------------------------");
         for(int i=0;i<=3;i++) {
-            System.out.println("----------------------------------------------------------------------------------------");
-            System.out.println("Übersicht");
-            System.out.println("Vergangene Zeit um das Wort " + i+1 +" zu simulieren: " + times[i]/1000 + " Sekunden");
+            System.out.println("Vergangene Zeit um das Wort " + (i+1) +" zu simulieren: " + times[i]/1000 + " Sekunden");
+        }
+        System.out.println("----------------------------------------------------------------------------------------");
+        for(int i=0;i<=3;i++) {
+            Set<Integer> outputstate = new HashSet<Integer>();
+            Set<State> states = outputs.get(i);
+            for (State s: states) {
+                outputstate.add(s.getId());
+            }
+            System.out.println("Ergebnismenge für das Wort " + (i+1) +" ist: ");
+            System.out.println(outputstate.toString());
         }
 
 

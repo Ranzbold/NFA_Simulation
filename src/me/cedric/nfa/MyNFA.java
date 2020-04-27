@@ -41,6 +41,8 @@ public class MyNFA {
             outputs.add(reachable);
         }
         for(int i=0;i<=3;i++) {
+            System.out.println("----------------------------------------------------------------------------------------");
+            System.out.println("Übersicht");
             System.out.println("Vergangene Zeit um das Wort " + i+1 +" zu simulieren: " + times[i]/1000 + " Sekunden");
         }
 

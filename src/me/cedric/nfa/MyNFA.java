@@ -23,16 +23,29 @@ public class MyNFA {
         for(String w: words) {
             input.add(w.toCharArray());
         }
-        System.out.println("Wortlänge: " + words.get(0).length() + " Wörter");
-        //Set<State> start = new HashSet<State>();
+
         Set<State> reachable = new HashSet<State>();
-        //start.add(M.getState(7));
-        //reachable = M.calulateNextStates(start, "b");
-        reachable = M.simulate(7,input.get(0));
-        for(State s: reachable) {
-            System.out.println(s.getId());
+        List<Set<State>> outputs = new ArrayList<Set<State>>();
+        long[] times = new long[4];
+        for(int i=0 ;i<=3;i++) {
+            System.out.println("Wortlänge: " + input.get(i).length + " Wörter");
+            long starttime = System.currentTimeMillis();
+            reachable = M.simulate(7,input.get(i));
+            for(State s: reachable) {
+                System.out.println(s.getId());
+            }
+            long endtime = System.currentTimeMillis();
+            long timeElapsed = endtime - starttime;
+            System.out.println("Vergangene Zeit um das Wort zu simulieren: " + timeElapsed / 1000+ " Sekunden");
+            times[i] = timeElapsed;
+            outputs.add(reachable);
+        }
+        for(int i=0;i<=3;i++) {
+            System.out.println("Vergangene Zeit um das Wort " + i+1 +" zu simulieren: " + times[i]/1000 + " Sekunden");
         }
 
 
-    }
+
+
+        }
 }

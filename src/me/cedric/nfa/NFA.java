@@ -1,8 +1,18 @@
 package me.cedric.nfa;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class NFA {
+    public Set<State> getStates() {
+        return states;
+    }
+
+    public Set<Transition> getTransitions() {
+        return transitions;
+    }
+
     State initialState;
     private final Set<State> states;
     private final Set<State> acceptingStates;
@@ -21,20 +31,40 @@ public class NFA {
         Transition tr = new Transition(stateQ,c,StateP);
         transitions.add(tr);
     }
-    public Set<State> simulate(int q, List<String> word) {
+    public void addTransition(Transition tr) {
+        transitions.add(tr);
+    }
+
+    public Set<State> simulate(int q, char[] word) {
         State stateQ = getState(q);
         Set<State> possibleStates = new HashSet<State>();
+        Set<State> possibleNext = new HashSet<State>();
         possibleStates.add(stateQ);
-        for(String symbol: word) {
-            for(State possible: possibleStates) {
-                for (Transition tr : transitions) {
-                    if ((tr.getFrom().equals(possible)) && (tr.getSymbol().equals(symbol))) {
-                        possibleStates.add(tr.to);
-                    }
+        int counter = 1;
+        for(char symbol: word) {
+            if(counter % 10000 == 0) {
+                System.out.println("Der Zähler ist bei Symbol Nummer: " + counter);
+            }
+            possibleNext = calulateNextStates(possibleStates, Character.toString(symbol));
+            possibleStates = possibleNext;
+            counter++;
+        }
+        return possibleStates;
+    }
+    public Set<State> calulateNextStates(Set<State> currentStates, String delta) {
+        Set<State> nextStates = new HashSet<State>();
+        for(State current : currentStates) {
+            for(Transition tr: transitions) {
+                //System.out.println(tr.getFrom().getId() + tr.getSymbol() + tr.getTo().getId());
+
+
+                if ((tr.getFrom().equals(current)) && (tr.getSymbol().equals(delta))) {
+                    nextStates.add(tr.getTo());
                 }
             }
         }
-        return possibleStates;
+        return nextStates;
+
     }
     public boolean wordAccepted(Set<State> states) {
         for(State state: states) {
@@ -75,6 +105,23 @@ public class NFA {
             }
         }
         return null;
+    }
+    public void readTransitions(String path) {
+        try {
+            File input = new File(path);
+            Scanner scanner = new Scanner(input);
+            while (scanner.hasNextLine()) {
+                String tr = scanner.nextLine();
+                String[] properties = tr.split(" ");
+                State from = getState(Integer.parseInt(properties[0]));
+                State to = getState(Integer.parseInt(properties[2]));
+                Transition transition = new Transition(from,properties[1],to);
+                transitions.add(transition);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

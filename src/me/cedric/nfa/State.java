@@ -5,7 +5,6 @@ import java.util.Set;
 public class State {
     private int id;
     private boolean accept;
-
     public int getId() {
         return id;
     }
@@ -13,8 +12,6 @@ public class State {
     public boolean isAccept() {
         return accept;
     }
-
-
 
     public State(int id, boolean accept) {
         this.id = id;

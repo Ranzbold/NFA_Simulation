@@ -15,6 +15,8 @@ public class MyNFA {
         for (int i=1;i<=34;i++) {
             M.addState(i);
         }
+        //δ(7, abababbaa)
+        char[] deltadach = {'a','b','a','b','a','b','b','a','a'};
         M.readTransitions("D:/Download/2020_H09.trans");
 
 
@@ -26,6 +28,7 @@ public class MyNFA {
 
         Set<State> reachable = new HashSet<State>();
         List<Set<State>> outputs = new ArrayList<Set<State>>();
+
         long[] times = new long[4];
         for(int i=0 ;i<=3;i++) {
             System.out.println("Wortlänge: " + input.get(i).length + " Wörter");
@@ -46,6 +49,8 @@ public class MyNFA {
             System.out.println("Vergangene Zeit um das Wort " + (i+1) +" zu simulieren: " + times[i]/1000 + " Sekunden");
         }
         System.out.println("----------------------------------------------------------------------------------------");
+        reachable = M.simulate(7,deltadach);
+        outputs.add(reachable);
         for(int i=0;i<=3;i++) {
             Set<Integer> outputstate = new HashSet<Integer>();
             Set<State> states = outputs.get(i);
@@ -55,7 +60,11 @@ public class MyNFA {
             System.out.println("Ergebnismenge für das Wort " + (i+1) +" ist: ");
             System.out.println(outputstate.toString());
         }
-
+        Set<Integer> outputstate = new HashSet<Integer>();
+        for(State s:outputs.get(4)) {
+            outputstate.add(s.getId());
+        }
+        System.out.println("Ausgabe für Deltadach von abababbaa: "+ outputstate.toString());
 
 
 

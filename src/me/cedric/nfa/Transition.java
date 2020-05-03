@@ -2,14 +2,16 @@ package me.cedric.nfa;
 
 public class Transition {
 
-
+    private State from;
+    private State to;
+    private String symbol;
     public Transition(State from, String symbol, State to) {
         this.from = from;
         this.to = to;
         this.symbol = symbol;
     }
 
-    State from;
+
 
     public State getFrom() {
         return from;
@@ -23,8 +25,7 @@ public class Transition {
         return symbol;
     }
 
-    State to;
-    String symbol;
+
 
 
 

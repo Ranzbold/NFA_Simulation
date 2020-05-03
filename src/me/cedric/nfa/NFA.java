@@ -45,19 +45,16 @@ public class NFA {
             if(counter % 10000 == 0) {
                 System.out.println("Der Zähler ist bei Symbol Nummer: " + counter);
             }
-            possibleNext = calulateNextStates(possibleStates, Character.toString(symbol));
+            possibleNext = calculateNextStates(possibleStates, Character.toString(symbol));
             possibleStates = possibleNext;
             counter++;
         }
         return possibleStates;
     }
-    public Set<State> calulateNextStates(Set<State> currentStates, String delta) {
+    public Set<State> calculateNextStates(Set<State> currentStates, String delta) {
         Set<State> nextStates = new HashSet<State>();
         for(State current : currentStates) {
             for(Transition tr: transitions) {
-                //System.out.println(tr.getFrom().getId() + tr.getSymbol() + tr.getTo().getId());
-
-
                 if ((tr.getFrom().equals(current)) && (tr.getSymbol().equals(delta))) {
                     nextStates.add(tr.getTo());
                 }
